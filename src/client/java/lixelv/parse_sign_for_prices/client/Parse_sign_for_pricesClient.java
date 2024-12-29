@@ -73,7 +73,7 @@ public class Parse_sign_for_pricesClient implements ClientModInitializer {
             regex = "";
         } else {
             String[] tokens = splitFirstTwoTokens(fullArgs);
-            regex = tokens[0];
+            regex = tokens[0].toLowerCase();
 
             // Если есть второй токен
             if (tokens[1] != null) {
@@ -240,13 +240,13 @@ public class Parse_sign_for_pricesClient implements ClientModInitializer {
                                         }
 
                                         // 1) Проверка пользовательского pattern
-                                        Matcher userMatcher = pattern.matcher(lineStr);
+                                        Matcher userMatcher = pattern.matcher(lineStr.toLowerCase());
                                         if (userMatcher.find()) {
                                             matched = true;
                                         }
 
                                         // 2) Ищем "аб" (*9)
-                                        Matcher abMatcher = abPattern.matcher(lineStr);
+                                        Matcher abMatcher = abPattern.matcher(lineStr.toLowerCase());
                                         boolean hasAB = false;
                                         while (abMatcher.find()) {
                                             hasAB = true;
@@ -263,7 +263,7 @@ public class Parse_sign_for_pricesClient implements ClientModInitializer {
 
                                         // 3) Если нет "аб", проверяем "(\d+)\s?а"
                                         if (!hasAB) {
-                                            Matcher aMatcher = aPattern.matcher(lineStr);
+                                            Matcher aMatcher = aPattern.matcher(lineStr.toLowerCase());
                                             while (aMatcher.find()) {
                                                 foundPrice = true;
                                                 int price = Integer.parseInt(aMatcher.group(1));
@@ -319,7 +319,7 @@ public class Parse_sign_for_pricesClient implements ClientModInitializer {
                         .append(sd.pos.getY()).append(", ")
                         .append(sd.pos.getZ())
                         .append("], цена=")
-                        .append(sd.price);
+                        .append(sd.price).append(" алм.");
 
                 if (showSigns) {
                     matchedSigns
