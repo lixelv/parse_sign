@@ -13,8 +13,8 @@
 ### Примеры
 ```
 /get_signs губк
-/get_signs незерит
-/get_signs облом true
+/get_signs незеритовый\sслиток
+/get_signs облом{2}.?\s true
 /get_signs тотем true
 ```
 
