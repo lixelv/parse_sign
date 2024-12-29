@@ -33,21 +33,19 @@ public class Parse_sign_for_pricesClient implements ClientModInitializer {
     public void onInitializeClient() {
         // Регистрируем одну команду: /get_signs <args...>
         // Вся строка (regex + show_signs) парсится в один аргумент.
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            dispatcher.register(
-                    literal("get_signs")
-                            // Один "жадный" аргумент. Вся остальная строка уходит в него.
-                            .then(argument("args", StringArgumentType.greedyString())
-                                    .executes(context -> {
-                                        // Весь текст после /get_signs:
-                                        String fullArgs = StringArgumentType.getString(context, "args").trim();
-                                        return handleCommand(fullArgs);
-                                    })
-                            )
-                            // Если вообще не ввели аргументов ("/get_signs"), попробуем пустую строку
-                            .executes(context -> handleCommand(""))
-            );
-        });
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(
+                literal("get_signs")
+                        // Один "жадный" аргумент. Вся остальная строка уходит в него.
+                        .then(argument("args", StringArgumentType.greedyString())
+                                .executes(context -> {
+                                    // Весь текст после /get_signs:
+                                    String fullArgs = StringArgumentType.getString(context, "args").trim();
+                                    return handleCommand(fullArgs);
+                                })
+                        )
+                        // Если вообще не ввели аргументов ("/get_signs"), попробуем пустую строку
+                        .executes(context -> handleCommand(""))
+        ));
         System.out.println("ParseSignForPricesClient initialized!");
     }
 
@@ -55,7 +53,6 @@ public class Parse_sign_for_pricesClient implements ClientModInitializer {
      * Разбираем вручную строку, чтобы получить:
      * 1) regex (первое слово)
      * 2) show_signs (true | false), если пользователь указал второе слово
-     *
      * Пример:
      *  "/get_signs бан"            -> regex="бан", show_signs=true
      *  "/get_signs бан false"      -> regex="бан", show_signs=false
@@ -195,6 +192,9 @@ public class Parse_sign_for_pricesClient implements ClientModInitializer {
     ) {
         GameOptions options = client.options;
         int viewDistance = options.getViewDistance().getValue();
+
+        assert client.player != null;
+
         int originChunkX = client.player.getChunkPos().x;
         int originChunkZ = client.player.getChunkPos().z;
         int signCount = 0;
@@ -206,6 +206,8 @@ public class Parse_sign_for_pricesClient implements ClientModInitializer {
             for (int dz = -viewDistance; dz <= viewDistance; dz++) {
                 int chunkX = originChunkX + dx;
                 int chunkZ = originChunkZ + dz;
+
+                assert client.world != null;
 
                 WorldChunk chunk = client.world.getChunkManager().getWorldChunk(chunkX, chunkZ);
                 if (chunk == null) continue;
