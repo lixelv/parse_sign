@@ -12,9 +12,6 @@
   "entrypoints": {
     "client": [
       "lixelv.parse_sign_for_prices.client.Parse_sign_for_pricesClient"
-    ],
-    "main": [
-      "lixelv.parse_sign_for_prices.Parse_sign_for_prices"
     ]
   },
   "mixins": [
