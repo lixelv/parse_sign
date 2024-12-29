@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "parse_sign_for_prices",
+  "version": "${version}",
+  "name": "parse_sign_for_prices",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/parse_sign_for_prices/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "lixelv.parse_sign_for_prices.client.Parse_sign_for_pricesClient"
+    ],
+    "main": [
+      "lixelv.parse_sign_for_prices.Parse_sign_for_prices"
+    ]
+  },
+  "mixins": [
+    "parse_sign_for_prices.mixins.json",
+    {
+      "config": "parse_sign_for_prices.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
